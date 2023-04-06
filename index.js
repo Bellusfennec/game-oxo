@@ -1,7 +1,7 @@
 const game = document.querySelector("#game");
 const setings = {
   range: 3,
-  field: [],
+  fields: [],
   currentPlayer: "x",
 };
 initGame();
@@ -31,10 +31,10 @@ function startButton() {
         const col = document.createElement("div");
         col.classList.add("col");
         row.append(col);
-        setings.field.push({ x: i, y: k });
+        setings.fields.push({ x: i, y: k });
       }
     }
-    console.log(setings.field);
+    console.log(setings.fields);
     button.remove();
     startGame();
   });
@@ -51,10 +51,20 @@ function startGame() {
       item.textContent = setings.currentPlayer === "x" ? "x" : "o";
       item.classList.add("item");
       col.append(item);
+      setings.fields[i] = { ...setings.fields[i], mark: setings.currentPlayer };
       setings.currentPlayer = setings.currentPlayer === "x" ? "o" : "x";
       checkGame();
     });
   });
 }
 
-function checkGame() {}
+function checkGame() {
+  const first = setings.fields[0];
+  const two = setings.fields[1];
+  const tried = setings.fields[2];
+  console.log(first, setings.fields);
+  const set = setings.fields.filter(
+    (field) => field.mark === "x" || field.mark === "o"
+  );
+  console.log(set);
+}
