@@ -11,60 +11,109 @@ function initGame() {
   title.textContent = "Крестики-нолики";
   title.classList.add("title");
   game.append(title);
-  startButton();
+  startButton(game, "Начать игру");
 }
 
-function startButton() {
+function startButton(element, textButton) {
   let button = document.createElement("button");
-  button.textContent = "Начать игру";
+  button.textContent = textButton;
   button.classList.add("button-start");
-  game.append(button);
+  element.append(button);
   button.addEventListener("click", () => {
-    let range = document.createElement("div");
-    range.classList.add("range");
-    game.append(range);
-    for (let i = 0; i < setings.range; i++) {
-      const row = document.createElement("div");
-      row.classList.add("row");
-      range.append(row);
-      for (let k = 0; k < setings.range; k++) {
-        const col = document.createElement("div");
-        col.classList.add("col");
-        row.append(col);
-        setings.fields.push({ x: i, y: k });
-      }
-    }
-    console.log(setings.fields);
-    button.remove();
+    setings.fields = [];
+    const field = document.querySelector(".field");
+    if (field) field.remove();
+    const modal = document.querySelector(".modal-background");
+    if (modal) modal.remove();
+    createGame();
     startGame();
   });
+  button.remove();
+}
+
+function createGame() {
+  let field = document.createElement("div");
+  field.classList.add("field");
+  game.append(field);
+  for (let i = 0; i < setings.range; i++) {
+    const row = document.createElement("div");
+    row.classList.add("row");
+    field.append(row);
+    for (let k = 0; k < setings.range; k++) {
+      const col = document.createElement("div");
+      col.classList.add("col");
+      row.append(col);
+      setings.fields.push({ x: i, y: k });
+    }
+  }
 }
 
 function startGame() {
   const cols = document.querySelectorAll(".col");
-  console.log(cols);
-  cols.forEach((col, i, array) => {
-    col.addEventListener("click", (event) => {
-      console.log(col, i);
+  cols.forEach((col, i) => {
+    col.addEventListener("click", () => {
       const item = document.createElement("div");
       if (col.textContent !== "") return;
       item.textContent = setings.currentPlayer === "x" ? "x" : "o";
       item.classList.add("item");
+      item.style.color =
+        setings.currentPlayer === "x" ? "lightslategray" : "lightcoral";
       col.append(item);
       setings.fields[i] = { ...setings.fields[i], mark: setings.currentPlayer };
       setings.currentPlayer = setings.currentPlayer === "x" ? "o" : "x";
-      checkGame();
+      checkGame(setings.fields[i]);
     });
   });
 }
 
-function checkGame() {
-  const first = setings.fields[0];
-  const two = setings.fields[1];
-  const tried = setings.fields[2];
-  console.log(first, setings.fields);
-  const set = setings.fields.filter(
+function checkGame(item) {
+  const lengthX = setings.fields.filter(
+    (field) => field.mark === item.mark && field.x === item.x
+  ).length;
+  const lengthY = setings.fields.filter(
+    (field) => field.mark === item.mark && field.y === item.y
+  ).length;
+  const lengthZ1 = setings.fields.filter(
+    (field) => field.mark === item.mark && field.y === field.x
+  ).length;
+  const lengthZ2 = setings.fields.filter(
+    (field) =>
+      field.mark === item.mark &&
+      ((field.x === 0 && field.y === 2) ||
+        (field.x === 1 && field.y === 1) ||
+        (field.x === 2 && field.y === 0))
+  ).length;
+
+  if (lengthX === 3 || lengthY === 3 || lengthZ1 === 3 || lengthZ2 === 3) {
+    openModal(`Победил ${item.mark.toUpperCase()}`, "");
+    const modalBody = document.querySelector(".modal-body");
+    startButton(modalBody, "Сыграть еще");
+    return;
+  }
+
+  const lengthXYZ = setings.fields.filter(
     (field) => field.mark === "x" || field.mark === "o"
-  );
-  console.log(set);
+  ).length;
+  if (lengthXYZ === 9) {
+    openModal(`Нет победителя`, "");
+    const modalBody = document.querySelector(".modal-body");
+    startButton(modalBody, "Сыграть еще");
+  }
 }
+
+function openModal(header, body) {
+  game.insertAdjacentHTML(
+    "beforeend",
+    `
+    <div class="modal-background">
+      <div class="modal">
+        <div class="modal-header">${header}</div>
+        <div class="modal-body">${body}</div>
+      </div>
+    </div>
+    `
+  );
+}
+// let line = document.createElement("div");
+// line.classList.add("button-start");
+// game.append(line);
