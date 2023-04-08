@@ -27,8 +27,8 @@ function startButton(element, textButton) {
     if (modal) modal.remove();
     createGame();
     startGame();
+    button.remove();
   });
-  button.remove();
 }
 
 function createGame() {
