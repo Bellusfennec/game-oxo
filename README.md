@@ -5,7 +5,7 @@
 
 ## Demo
 
-bellusfennec.github.io/game-oxo/
+https://bellusfennec.github.io/game-oxo/
 ## Author
 
 - [@bellusfennec](https://www.github.com/bellusfennec)
