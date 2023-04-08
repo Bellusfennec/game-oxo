@@ -10,7 +10,6 @@ function resize() {
     body.style.fontSize = "2.5vw";
     html.style.fontSize = "2.5vw";
   }
-  console.log(html.style.fontSize);
 }
 resize();
 window.addEventListener("resize", () => resize());
