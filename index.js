@@ -1,3 +1,20 @@
+function resize() {
+  const body = document.querySelector("body");
+  const html = document.querySelector("html");
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  if (width > height) {
+    body.style.fontSize = "2.5vh";
+    html.style.fontSize = "2.5vh";
+  } else {
+    body.style.fontSize = "2.5vw";
+    html.style.fontSize = "2.5vw";
+  }
+  console.log(html.style.fontSize);
+}
+resize();
+window.addEventListener("resize", () => resize());
+
 const game = document.querySelector("#game");
 const setings = {
   range: 3,
@@ -85,7 +102,7 @@ function checkGame(item) {
   ).length;
 
   if (lengthX === 3 || lengthY === 3 || lengthZ1 === 3 || lengthZ2 === 3) {
-    openModal(`Победил ${item.mark.toUpperCase()}`, "");
+    openModal(`Победил "${item.mark.toUpperCase()}"`, "");
     const modalBody = document.querySelector(".modal-body");
     startButton(modalBody, "Сыграть еще");
     return;
@@ -102,7 +119,8 @@ function checkGame(item) {
 }
 
 function openModal(header, body) {
-  game.insertAdjacentHTML(
+  const bodyTag = document.querySelector("body");
+  bodyTag.insertAdjacentHTML(
     "beforeend",
     `
     <div class="modal-background">
