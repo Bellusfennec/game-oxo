@@ -24,6 +24,7 @@ body {
   white-space: nowrap;
 }
 .field {
+  position: relative;
   opacity: 0;
   border: 1px solid lightgray;
   box-shadow: 4px 2px 15px 3px rgba(128, 128, 128, 0.3);
@@ -47,14 +48,22 @@ body {
   z-index: 2;
   transition: 0.15s;
 }
+.player-x {
+  color: lightslategray;
+}
+.player-o {
+  color: lightskyblue;
+}
 .item {
   font-family: "PermanentMarker", cursive;
-  color: lightslategray;
   font-weight: 100;
   user-select: none;
   font-size: 10rem;
   transform: translateY(-0.9375rem);
   animation: 0.3s opacityON forwards ease-in-out;
+}
+.strike {
+  animation: 1.5s blink-red forwards;
 }
 button {
   opacity: 0;
@@ -75,27 +84,6 @@ button:hover {
   background-color: darkslategray;
 }
 
-@font-face {
-  font-family: "PermanentMarker";
-  src: url("assets/fonts/Permanent_Marker/PermanentMarker-Regular.ttf")
-    format("truetype");
-  font-style: normal;
-  font-weight: normal;
-}
-@font-face {
-  font-family: "Roboto";
-  src: url("assets/fonts/Roboto/Roboto-Regular.ttf") format("truetype");
-  font-style: normal;
-  font-weight: normal;
-}
-@keyframes opacityON {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 .modal-background {
   position: fixed;
   top: 0;
@@ -128,9 +116,52 @@ button:hover {
   margin-top: 2rem;
   text-align: center;
 }
+
 @media screen and (max-width: 700px) {
   .col {
     width: 30vw;
     height: 30vw;
+  }
+}
+
+@font-face {
+  font-family: "PermanentMarker";
+  src: url("assets/fonts/Permanent_Marker/PermanentMarker-Regular.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("assets/fonts/Roboto/Roboto-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+@keyframes opacityON {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes blink-red {
+  0% {
+    color: inherit;
+  }
+  15% {
+    color: lightcoral;
+  }
+  30% {
+    color: inherit;
+  }
+  50% {
+    color: lightcoral;
+  }
+  75% {
+    color: inherit;
+  }
+  100% {
+    color: lightcoral;
   }
 }

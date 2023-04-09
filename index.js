@@ -1,3 +1,5 @@
+import "./style.css";
+
 function resize() {
   const body = document.querySelector("body");
   const html = document.querySelector("html");
@@ -19,6 +21,7 @@ const setings = {
   range: 3,
   fields: [],
   currentPlayer: "x",
+  won: false,
 };
 initGame();
 
@@ -37,6 +40,7 @@ function startButton(element, textButton) {
   element.append(button);
   button.addEventListener("click", () => {
     setings.fields = [];
+    setings.won = false;
     const field = document.querySelector(".field");
     if (field) field.remove();
     const modal = document.querySelector(".modal-background");
@@ -69,11 +73,11 @@ function startGame() {
   cols.forEach((col, i) => {
     col.addEventListener("click", () => {
       const item = document.createElement("div");
-      if (col.textContent !== "") return;
+      if (col.textContent !== "" || setings.won === true) return;
       item.textContent = setings.currentPlayer === "x" ? "x" : "o";
       item.classList.add("item");
-      item.style.color =
-        setings.currentPlayer === "x" ? "lightslategray" : "lightcoral";
+      const player = setings.currentPlayer === "x" ? "player-x" : "player-o";
+      col.classList.add(player);
       col.append(item);
       setings.fields[i] = { ...setings.fields[i], mark: setings.currentPlayer };
       setings.currentPlayer = setings.currentPlayer === "x" ? "o" : "x";
@@ -85,32 +89,44 @@ function startGame() {
 function checkGame(item) {
   const lengthX = setings.fields.filter(
     (field) => field.mark === item.mark && field.x === item.x
-  ).length;
+  );
   const lengthY = setings.fields.filter(
     (field) => field.mark === item.mark && field.y === item.y
-  ).length;
+  );
   const lengthZ1 = setings.fields.filter(
     (field) => field.mark === item.mark && field.y === field.x
-  ).length;
+  );
   const lengthZ2 = setings.fields.filter(
     (field) =>
       field.mark === item.mark &&
       ((field.x === 0 && field.y === 2) ||
         (field.x === 1 && field.y === 1) ||
         (field.x === 2 && field.y === 0))
-  ).length;
+  );
 
-  if (lengthX === 3 || lengthY === 3 || lengthZ1 === 3 || lengthZ2 === 3) {
-    openModal(`Победил "${item.mark.toUpperCase()}"`, "");
-    const modalBody = document.querySelector(".modal-body");
-    startButton(modalBody, "Сыграть еще");
+  if (
+    lengthX.length === 3 ||
+    lengthY.length === 3 ||
+    lengthZ1.length === 3 ||
+    lengthZ2.length === 3
+  ) {
+    combo(lengthX);
+    combo(lengthY);
+    combo(lengthZ1);
+    combo(lengthZ2);
+    setTimeout(() => {
+      openModal(`Победил "${item.mark.toUpperCase()}"`, "");
+      const modalBody = document.querySelector(".modal-body");
+      startButton(modalBody, "Сыграть еще");
+    }, 1500);
+
     return;
   }
 
   const lengthXYZ = setings.fields.filter(
     (field) => field.mark === "x" || field.mark === "o"
-  ).length;
-  if (lengthXYZ === 9) {
+  );
+  if (lengthXYZ.length === 9) {
     openModal(`Нет победителя`, "");
     const modalBody = document.querySelector(".modal-body");
     startButton(modalBody, "Сыграть еще");
@@ -131,6 +147,12 @@ function openModal(header, body) {
     `
   );
 }
-// let line = document.createElement("div");
-// line.classList.add("button-start");
-// game.append(line);
+function combo(line) {
+  if (line.length !== 3) return;
+  const cols = document.querySelectorAll(".col");
+  line.forEach((item) => {
+    const index = setings.fields.indexOf(item);
+    cols[index].firstElementChild.classList.add("strike");
+  });
+  setings.won = true;
+}
