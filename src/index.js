@@ -1,4 +1,4 @@
-import "./style.css";
+import "./assets/scss/style.scss";
 
 function resize() {
   const body = document.querySelector("body");
