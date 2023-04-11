@@ -1,9 +1,9 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const isDev = process.env.NODE_ENV === 'development'
 
 module.exports = {
-  mode: 'development',
   entry: path.resolve(__dirname, 'src/index.js'),
   output: {
     path: path.resolve(__dirname, 'docs'),
@@ -20,7 +20,7 @@ module.exports = {
       template: path.resolve(__dirname, 'src/index.html')
     }),
     new MiniCssExtractPlugin({
-      filename: 'style.[chunkhash].css'
+      filename: '[name].[chunkhash].css'
     })
   ],
   module: {
@@ -38,16 +38,10 @@ module.exports = {
       {
         test: /\.(scss|css)$/,
         use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1
-            }
-          },
-          {
-            loader: 'postcss-loader'
-          }
+          isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader',
+          'sass-loader'
         ]
       }
     ]

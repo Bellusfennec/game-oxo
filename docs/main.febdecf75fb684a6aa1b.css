@@ -1,22 +1,31 @@
 * {
   padding: 0;
   margin: 0;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 html,
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
-
 #game {
   position: absolute;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
 }
 .title {
@@ -25,76 +34,92 @@ body {
   white-space: nowrap;
 }
 .field {
+  border: 1px solid #000;
   position: relative;
   opacity: 0;
-  border: 1px solid lightgray;
+  border: 1px solid #d3d3d3;
+  -webkit-box-shadow: 4px 2px 15px 3px rgba(128, 128, 128, 0.3);
   box-shadow: 4px 2px 15px 3px rgba(128, 128, 128, 0.3);
   -webkit-animation: 0.3s opacityON forwards ease-in-out;
-          animation: 0.3s opacityON forwards ease-in-out;
+  animation: 0.3s opacityON forwards ease-in-out;
 }
 .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 .col {
-  border: 1px solid lightgray;
+  border: 1px solid #d3d3d3;
   width: 10rem;
   height: 10rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
-  background: rgb(250, 250, 250);
+  background: #fafafa;
+  -webkit-transition: 0.3s;
   transition: 0.3s;
-  font-family: "PermanentMarker", cursive;
+  font-family: 'PermanentMarker', cursive;
   font-weight: 100;
   -webkit-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   font-size: 10rem;
 }
 .col:hover {
+  -webkit-box-shadow: inset 1px 1px 15px 1px rgba(128, 128, 128, 0.3);
   box-shadow: inset 1px 1px 15px 1px rgba(128, 128, 128, 0.3);
   z-index: 2;
+  -webkit-transition: 0.15s;
   transition: 0.15s;
 }
 .player-x {
-  color: lightslategray;
+  color: #789;
 }
 .player-o {
-  color: lightskyblue;
+  color: #87cefa;
 }
 .item {
   opacity: 0;
   -webkit-transform: translateY(-0.9375rem);
-          transform: translateY(-0.9375rem);
+  transform: translateY(-0.9375rem);
   -webkit-animation: 0.3s opacityON forwards ease-in-out;
-          animation: 0.3s opacityON forwards ease-in-out;
+  animation: 0.3s opacityON forwards ease-in-out;
   padding: 1rem;
   overflow: hidden;
 }
 .strike {
   opacity: 1;
   -webkit-animation: 1.5s blink-red forwards;
-          animation: 1.5s blink-red forwards;
+  animation: 1.5s blink-red forwards;
 }
 button {
   opacity: 0;
   cursor: pointer;
   padding: 0.9375em 1.875em;
   border-radius: 0.3125rem;
+  -webkit-transition: 0.3s;
   transition: 0.3s;
   text-transform: uppercase;
   font-size: 1.5rem;
-  background-color: lightslategray;
+  background-color: #789;
   border: none;
-  color: white;
+  color: #fff;
+  -webkit-box-shadow: 4px 2px 5px 1px rgba(128, 128, 128, 0.5);
   box-shadow: 4px 2px 5px 1px rgba(128, 128, 128, 0.5);
   -webkit-animation: 0.3s opacityON forwards ease-in-out;
-          animation: 0.3s opacityON forwards ease-in-out;
+  animation: 0.3s opacityON forwards ease-in-out;
   white-space: nowrap;
 }
 button:hover {
-  background-color: darkslategray;
+  background-color: #2f4f4f;
 }
-
 .modal-background {
   position: fixed;
   top: 0;
@@ -103,25 +128,26 @@ button:hover {
   bottom: 0;
   background: rgba(200, 200, 200, 0.3);
   -webkit-backdrop-filter: blur(3px);
-          backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
   -webkit-animation: 0.3s opacityON forwards ease-in-out;
-          animation: 0.3s opacityON forwards ease-in-out;
+  animation: 0.3s opacityON forwards ease-in-out;
 }
 .modal {
   position: absolute;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  -webkit-box-shadow: 4px 2px 5px 1px rgba(128, 128, 128, 0.5);
   box-shadow: 4px 2px 5px 1px rgba(128, 128, 128, 0.5);
   border: 1px solid #b3b3b3;
   padding: 2rem;
   max-width: 90vw;
   border-radius: 0.3125rem;
-  background-color: rgb(250, 250, 250);
+  background-color: #fafafa;
   font-size: 2rem;
   -webkit-animation: 0.6s opacityON forwards ease-in-out;
-          animation: 0.6s opacityON forwards ease-in-out;
+  animation: 0.6s opacityON forwards ease-in-out;
 }
 .modal-header {
   font-weight: bold;
@@ -131,23 +157,21 @@ button:hover {
   margin-top: 2rem;
   text-align: center;
 }
-
 @media screen and (max-width: 700px) {
   .col {
     width: 30vw;
     height: 30vw;
   }
 }
-
 @font-face {
-  font-family: "PermanentMarker";
-  src: url(73b4d2d7c9141a94b91c.ttf) format("truetype");
+  font-family: 'PermanentMarker';
+  src: url(73b4d2d7c9141a94b91c.ttf) format('truetype');
   font-style: normal;
   font-weight: normal;
 }
 @font-face {
-  font-family: "Roboto";
-  src: url(160d7a6ac26376e5e977.ttf) format("truetype");
+  font-family: 'Roboto';
+  src: url(160d7a6ac26376e5e977.ttf) format('truetype');
   font-style: normal;
   font-weight: normal;
 }
@@ -172,19 +196,19 @@ button:hover {
     color: inherit;
   }
   15% {
-    color: lightcoral;
+    color: #f08080;
   }
   30% {
     color: inherit;
   }
   50% {
-    color: lightcoral;
+    color: #f08080;
   }
   75% {
     color: inherit;
   }
   100% {
-    color: lightcoral;
+    color: #f08080;
   }
 }
 @keyframes blink-red {
@@ -192,19 +216,18 @@ button:hover {
     color: inherit;
   }
   15% {
-    color: lightcoral;
+    color: #f08080;
   }
   30% {
     color: inherit;
   }
   50% {
-    color: lightcoral;
+    color: #f08080;
   }
   75% {
     color: inherit;
   }
   100% {
-    color: lightcoral;
+    color: #f08080;
   }
 }
-
