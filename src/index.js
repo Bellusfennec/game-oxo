@@ -1,5 +1,13 @@
 import './assets/scss/style.scss'
 
+const game = document.querySelector('#game')
+const setings = {
+  range: 3,
+  fields: [],
+  currentPlayer: 'x',
+  won: false
+}
+
 function resize() {
   const body = document.querySelector('body')
   const html = document.querySelector('html')
@@ -16,21 +24,15 @@ function resize() {
 resize()
 window.addEventListener('resize', () => resize())
 
-const game = document.querySelector('#game')
-const setings = {
-  range: 3,
-  fields: [],
-  currentPlayer: 'x',
-  won: false
-}
 initGame()
 
 function initGame() {
-  const title = document.createElement('h1')
-  title.textContent = 'Крестики-нолики'
-  title.classList.add('title')
-  game.append(title)
-  startButton(game, 'Начать игру')
+  game.insertAdjacentHTML(
+    'beforeend',
+    `<section id="main" class="screen"><h1 class="title">Крестики-нолики</h1></section>`
+  )
+  const main = document.querySelector('#main')
+  startButton(main, 'Начать игру')
 }
 
 function startButton(element, textButton) {
