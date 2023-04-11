@@ -20,7 +20,7 @@ module.exports = {
       template: path.resolve(__dirname, 'src/index.html')
     }),
     new MiniCssExtractPlugin({
-      filename: 'style.css'
+      filename: 'style.[chunkhash].css'
     })
   ],
   module: {
