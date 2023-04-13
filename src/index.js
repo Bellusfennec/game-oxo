@@ -29,17 +29,18 @@ initGame()
 function initGame() {
   game.insertAdjacentHTML(
     'beforeend',
-    `<section id="main" class="screen"><h1 class="title">Крестики-нолики</h1></section>`
+    `
+    <section id="main-page" class="screen">
+      <h1 class="title">Крестики-нолики</h1>
+      <button class="button-start">Начать игру</button>
+    </section>
+    `
   )
-  const main = document.querySelector('#main')
-  startButton(main, 'Начать игру')
+  const button = document.querySelector('.button-start')
+  startButton(button)
 }
 
-function startButton(element, textButton) {
-  let button = document.createElement('button')
-  button.textContent = textButton
-  button.classList.add('button-start')
-  element.append(button)
+function startButton(button) {
   button.addEventListener('click', () => {
     setings.fields = []
     setings.won = false
@@ -49,14 +50,27 @@ function startButton(element, textButton) {
     if (modal) modal.remove()
     createGame()
     startGame()
-    button.remove()
   })
 }
 
 function createGame() {
+  const mainPage = document.querySelector('#main-page')
+  const ggamePage = document.querySelector('#game-page')
+  mainPage ? mainPage.remove() : ''
+  ggamePage ? ggamePage.remove() : ''
+
+  game.insertAdjacentHTML(
+    'beforeend',
+    `
+    <section id="game-page" class="screen">
+      <h1 class="title">Крестики-нолики</h1>
+    </section>`
+  )
+
+  const gamePage = document.querySelector('#game-page')
   let field = document.createElement('div')
   field.classList.add('field')
-  game.append(field)
+  gamePage.append(field)
   for (let i = 0; i < setings.range; i++) {
     const row = document.createElement('div')
     row.classList.add('row')
@@ -88,6 +102,13 @@ function startGame() {
   })
 }
 
+function AI() {
+  const cols = document.querySelectorAll('.col')
+  if (setings.won === false) return
+  const emtys = cols.filter(col => col.textContent === '')
+  console.log(emtys)
+}
+
 function checkGame(item) {
   const lengthX = setings.fields.filter(
     field => field.mark === item.mark && field.x === item.x
@@ -117,9 +138,12 @@ function checkGame(item) {
     combo(lengthZ1)
     combo(lengthZ2)
     setTimeout(() => {
-      openModal(`Победил "${item.mark.toUpperCase()}"`, '')
-      const modalBody = document.querySelector('.modal-body')
-      startButton(modalBody, 'Сыграть еще')
+      openModal(
+        `Победил "${item.mark.toUpperCase()}"`,
+        '<button class="button-start">Сыграть еще</button>'
+      )
+      const button = document.querySelector('.button-start')
+      startButton(button)
     }, 1500)
 
     return
@@ -129,9 +153,12 @@ function checkGame(item) {
     field => field.mark === 'x' || field.mark === 'o'
   )
   if (lengthXYZ.length === 9) {
-    openModal(`Нет победителя`, '')
-    const modalBody = document.querySelector('.modal-body')
-    startButton(modalBody, 'Сыграть еще')
+    openModal(
+      `Нет победителя`,
+      '<button class="button-start">Сыграть еще</button>'
+    )
+    const button = document.querySelector('.button-start')
+    startButton(button)
   }
 }
 
